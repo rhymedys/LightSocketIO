@@ -1,5 +1,5 @@
 {
-  "name": "LightSocketIO",
+  "name": "light-socket-io",
   "version": "0.0.1",
   "description": "一个基于原生WebSocket封装的轻量包",
   "author": "rhymedys <rhymedys@gmail.com>",
