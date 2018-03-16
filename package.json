@@ -1,0 +1,34 @@
+{
+  "name": "LightSocketIO",
+  "version": "0.0.1",
+  "description": "一个基于原生WebSocket封装的轻量包",
+  "author": "rhymedys <rhymedys@gmail.com>",
+  "keywords": [
+    "realtime",
+    "framework",
+    "websocket",
+    "tcp",
+    "events",
+    "socket",
+    "io"
+  ],
+  "main": "./lib/index",
+  "files": [
+    "lib/"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rhymedys/LightSocketIO.git"
+  },
+  "scripts": {
+    "test": "nyc mocha --reporter spec --slow 200 --bail --timeout 10000 test/socket.io.js"
+  },
+  "devDependencies": {
+    "expect.js": "0.3.1",
+    "mocha": "^3.5.3",
+    "nyc": "^11.2.1",
+    "superagent": "^3.8.2",
+    "supertest": "^3.0.0"
+  }
+}
