@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-03-16 12:26:59
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-04-09 22:30:25
+ * @Last Modified time: 2018-04-09 22:44:45
  */
 
 function _tranJson2Query(param, key, encode) {
@@ -309,20 +309,22 @@ class LightSocketIO {
       const that = this
       switch (eventType) {
         case this.eventType.onopen:
-          this.socketClient.onopen = event => that.onOpenCallback(event)
+          this.socketClient.onopen = this.onOpenCallback
           break
         case this.eventType.onclose:
-          this.socketClient.onclose = event => that.onCloseCallback(event)
+          this.socketClient.onclose = this.onCloseCallback
           break
         case this.eventType.onbeforeunload:
-          this.socketClient.onbeforeunload = event => that.onBeforeUnloadCallback(event)
+          this.socketClient.onbeforeunload = this.onBeforeUnloadCallback
           break
         case this.eventType.onerror:
-          this.socketClient.onerror = event => that.onErrorCallback(event)
+          this.socketClient.onerror = this.onErrorCallback
           break
         default:
-          this.socketClient.onerror = event => that.onErrorCallback(event)
-          this.socketClient.onbeforeunload = event => that.onBeforeUnloadCallback(event)this.socketClient.onclose = event => that.onCloseCallback(event)this.socketClient.onopen = event => that.onOpenCallback(event)
+          this.socketClient.onerror = this.onErrorCallback
+          this.socketClient.onbeforeunload = this.onBeforeUnloadCallback
+          this.socketClient.onclose = this.onCloseCallback
+          this.socketClient.onopen = this.onOpenCallback
           break
       }
     }

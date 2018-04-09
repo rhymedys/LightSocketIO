@@ -20,27 +20,27 @@ const configs = {
     input: path.resolve(__dirname, '../src/index.js'),
     output: {
       file: path.resolve(__dirname, `../dist/${libName}-${version}.js`),
-      format:'es',
+      format:'umd',
       banner,
       name: 'LightSocketIO' 
     },
     plugins: [
       buble(),
-      babel()
+      // babel()
     ]
   },
   'production': {
     input: path.resolve(__dirname, '../src/index.js'),
     output: {
       file: path.resolve(__dirname, `../dist/${libName}-${version}.js`),
-      format:'es',
+      format:'umd',
       banner,
       name: 'LightSocketIO',
       env: 'production'
     },  
     plugins: [
       buble(),
-      babel()
+      // babel()
   
     ]
   }
