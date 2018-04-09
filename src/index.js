@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-03-16 12:26:59
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-04-09 22:55:07
+ * @Last Modified time: 2018-04-09 22:56:31
  */
 
 function _tranJson2Query(param, key, encode) {
@@ -10,18 +10,18 @@ function _tranJson2Query(param, key, encode) {
     return ''
   }
   let paramStr = ''
-  const t = typeof (param)
+  const t = typeof(param)
   if (t === 'string' || t === 'number' || t === 'boolean') {
-    paramStr += `&${key}=${(encode == null || encode) ?
-        encodeURIComponent(param) :
-        param}`
+    paramStr += `&${key}=${ (encode == null || encode)
+      ? encodeURIComponent(param)
+      : param}`
   } else {
     for (const i in param) {
-      const k = key == null ?
-        i :
-        key + (Object.prototype.toString.call(param) ===[object Array]?
-          `[${i}]` :
-          `.${i}`)
+      const k = key == null
+        ? i
+        : key + (Object.prototype.toString.call(param) === '[object Array]'
+          ? `[${i}]`
+          : `.${i}`)
       paramStr += _tranJson2Query(param[i], k, encode)
     }
   }
@@ -499,4 +499,4 @@ class LightSocketIO {
   }
 }
 
-export default LightSocketIO 
+export default LightSocketIO
