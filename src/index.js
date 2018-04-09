@@ -1,12 +1,32 @@
 /*
- * @Author: Rhymedys/Rhymedys@gmail.com 
- * @Date: 2018-03-16 12:26:59 
+ * @Author: Rhymedys/Rhymedys@gmail.com
+ * @Date: 2018-03-16 12:26:59
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-03-21 09:28:13
+ * @Last Modified time: 2018-04-09 22:30:25
  */
 
-
-import * as commonUtils from './CommonUtils'
+function _tranJson2Query(param, key, encode) {
+  if (param == null) {
+    return ''
+  }
+  let paramStr = ''
+  const t = typeof (param)
+  if (t === 'string' || t === 'number' || t === 'boolean') {
+    paramStr += `&${key}=${(encode == null || encode) ?
+        encodeURIComponent(param) :
+        param}`
+  } else {
+    for (const i in param) {
+      const k = key == null ?
+        i :
+        key + (param instanceof Array ?
+          `[${i}]` :
+          `.${i}`)
+      paramStr += _tranJson2Query(param[i], k, encode)
+    }
+  }
+  return paramStr
+}
 
 class LightSocketIO {
 
@@ -102,8 +122,7 @@ class LightSocketIO {
     }
   }
 
-
-/**
+  /**
  * @description 初始化socket的原生转态
  * @memberof SocketIO
  */
@@ -123,12 +142,7 @@ class LightSocketIO {
    * @memberof SocketIO
    */
   getSocketValue(key) {
-    return {
-      0: 'CONNECTING',
-      1: 'OPEN',
-      2: 'CLOSING',
-      3: 'CLOSED'
-    }[key]
+    return {0: 'CONNECTING', 1: 'OPEN', 2: 'CLOSING', 3: 'CLOSED'}[key]
   }
 
   /**
@@ -140,7 +154,6 @@ class LightSocketIO {
       window.clearInterval(this.heartBreakInterval)
     }
   }
-
 
   /**
    * @description 清空心跳回馈Callback计时器
@@ -181,9 +194,7 @@ class LightSocketIO {
   openHeartBreakCallbackTimer() {
     if (this.options.heartPackageConfig && this.options.heartPackageConfig.openHeatBreakCallbackTimer) {
       const callbackDuration = this.options.heartPackageConfig.heatBreakCallbackDuration || 30
-      this.heartBreakCallbackInterval = window.setInterval(() => {
-
-      }, callbackDuration * 1000)
+      this.heartBreakCallbackInterval = window.setInterval(() => {}, callbackDuration * 1000)
     }
   }
 
@@ -195,7 +206,9 @@ class LightSocketIO {
    */
   callCallbackMap(type, ...currentTarget) {
     if (type && this.callbackMap[type] && this.callbackMap[type].length > 0) {
-      this.callbackMap[type].forEach(val => val && val instanceof Function && val(...currentTarget))
+      this
+        .callbackMap[type]
+        .forEach(val => val && val instanceof Function && val(...currentTarget))
     }
   }
 
@@ -211,9 +224,13 @@ class LightSocketIO {
       this.nextAutoConnectTimeOut = 0
       this.options && this.options.heartPackageConfig && this.options.heartPackageConfig.open && this.openHeatBreak(this.options.heartPackageConfig.interval, this.options.heartPackageConfig.content)
     }
-    this.callbackList.onopen && this.callbackList.onopen(event.currentTarget)
+    this.callbackList.onopen && this
+      .callbackList
+      .onopen(event.currentTarget)
     this.callbackMap(this.eventType.onopen, event.currentTarget)
-    this.socketClient.onmessage = e => that.callbackList.onmessage(e.data, e)
+    this.socketClient.onmessage = e => that
+      .callbackList
+      .onmessage(e.data, e)
   }
 
   /**
@@ -225,7 +242,9 @@ class LightSocketIO {
   onCloseCallback(event) {
     this.socketClientRunning = false
     this.clearHeartBreakInterval()
-    this.callbackList.onclose && this.callbackList.onclose(event.currentTarget)
+    this.callbackList.onclose && this
+      .callbackList
+      .onclose(event.currentTarget)
     this.callbackMap(this.eventType.onclose, event.currentTarget)
     if (this.options && this.options.autoReconnect) {
       /**
@@ -242,7 +261,9 @@ class LightSocketIO {
    * @memberof SocketUtils
    */
   onBeforeUnloadCallback(event) {
-    this.callbackList.onbeforeunload && this.callbackList.onbeforeunload(event.currentTarget)
+    this.callbackList.onbeforeunload && this
+      .callbackList
+      .onbeforeunload(event.currentTarget)
     this.callbackMap(this.eventType.onbeforeunload, event.currentTarget)
   }
 
@@ -256,7 +277,9 @@ class LightSocketIO {
   onErrorCallback(event) {
     this.socketClientRunning = false
     this.clearHeartBreakInterval()
-    this.callbackList.onerror && this.callbackList.onerror(event.currentTarget)
+    this.callbackList.onerror && this
+      .callbackList
+      .onerror(event.currentTarget)
     this.callbackMap(this.eventType.onerror, event.currentTarget)
     if (this.options && this.options.autoReconnect) {
       /**
@@ -272,7 +295,9 @@ class LightSocketIO {
    * @memberof SocketIO
    */
   callGobalErrorCallback(error) {
-    this.options && this.options.goablErrorCallback && this.options.goablErrorCallback(error)
+    this.options && this.options.goablErrorCallback && this
+      .options
+      .goablErrorCallback(error)
   }
 
   /**
@@ -297,9 +322,7 @@ class LightSocketIO {
           break
         default:
           this.socketClient.onerror = event => that.onErrorCallback(event)
-          this.socketClient.onbeforeunload = event => that.onBeforeUnloadCallback(event)
-          this.socketClient.onclose = event => that.onCloseCallback(event)
-          this.socketClient.onopen = event => that.onOpenCallback(event)
+          this.socketClient.onbeforeunload = event => that.onBeforeUnloadCallback(event)this.socketClient.onclose = event => that.onCloseCallback(event)this.socketClient.onopen = event => that.onOpenCallback(event)
           break
       }
     }
@@ -324,7 +347,7 @@ class LightSocketIO {
     return this
   }
 
-    /**
+  /**
    * @description 监听事件
    * @param {any} eventTypeCallback
    * @param {any} eventCallback
@@ -334,7 +357,9 @@ class LightSocketIO {
   addCallback(eventTypeCallback, eventKey, eventCallback) {
     if (eventTypeCallback && eventKey && eventCallback instanceof Function) {
       if (this.eventType[eventTypeCallback(this.eventType)] && eventCallback) {
-        this.callbackMap[eventTypeCallback(this.eventType)].set(eventKey, eventCallback)
+        this
+          .callbackMap[eventTypeCallback(this.eventType)]
+          .set(eventKey, eventCallback)
         this.registerCallbackListener(eventTypeCallback(this.eventType))
       }
     } else {
@@ -343,7 +368,6 @@ class LightSocketIO {
 
     return this
   }
-
 
   /**
    * @description 移除事件监听
@@ -354,7 +378,9 @@ class LightSocketIO {
   removeCallback(eventTypeCallback, eventKey) {
     if (eventTypeCallback && eventKey) {
       if (this.eventType[eventTypeCallback(this.eventType)]) {
-        this.callbackMap[eventTypeCallback(this.eventType)].delete(eventKey)
+        this
+          .callbackMap[eventTypeCallback(this.eventType)]
+          .delete(eventKey)
         this.registerCallbackListener(eventTypeCallback(this.eventType))
       }
     } else {
@@ -364,7 +390,6 @@ class LightSocketIO {
     return this
   }
 
-
   /**
    * @description 发送消息
    * @param {any} msg
@@ -373,7 +398,9 @@ class LightSocketIO {
    */
   sendMsg(msg, errorCallback) {
     if (this.socketClientRunning && this.socketClient) {
-      this.socketClient.send(msg)
+      this
+        .socketClient
+        .send(msg)
     } else {
       this.reconnectSocketClient()
       errorCallback && errorCallback(msg)
@@ -404,7 +431,7 @@ class LightSocketIO {
         /**
          * 将query对象转 urlQueryString
          */
-        query = commonUtils.tranJson2Query(this.options.query)
+        query = _tranJson2Query(this.options.query)
         if (query.indexOf('&') === 0) {
           query = query.substring(1, query.length)
         }
@@ -412,7 +439,9 @@ class LightSocketIO {
       if (!this.socketClient) {
         this.callGobalErrorCallback('创建且连接SocketClient')
       } else {
-        this.socketClient.close()
+        this
+          .socketClient
+          .close()
         this.callGobalErrorCallback('重连SocketClient')
       }
 
@@ -432,7 +461,8 @@ class LightSocketIO {
    */
   reconnectSocketClient() {
     const that = this
-    if (this.lockReconnectSocketClient) return
+    if (this.lockReconnectSocketClient) 
+      return
     this.lockReconnectSocketClient = true
 
     if (this.reconnectSocketClientTimeOut) {
@@ -453,11 +483,12 @@ class LightSocketIO {
    * @memberof SocketIO
    */
   closeSocket() {
-    this.socketClientRunning && this.socketClient && this.socketClient.close()
+    this.socketClientRunning && this.socketClient && this
+      .socketClient
+      .close()
   }
 
-
-    /**
+  /**
    * 抛异常
    * @param {*} msg
    */
@@ -466,4 +497,4 @@ class LightSocketIO {
   }
 }
 
-export default LightSocketIO
+export default LightSocketIO 

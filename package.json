@@ -12,9 +12,9 @@
     "socket",
     "io"
   ],
-  "main": "./lib/index",
+  "main": "./src/index",
   "files": [
-    "lib/"
+    "src/"
   ],
   "license": "MIT",
   "repository": {
@@ -22,13 +22,53 @@
     "url": "https://github.com/rhymedys/LightSocketIO.git"
   },
   "scripts": {
-    "test": "nyc mocha --reporter spec --slow 200 --bail --timeout 10000 test/socket.io.js"
+    "build": "node build/build.js",
+    "test": "karma start build/karma.config.js",
+    "release": "bash build/release.sh"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-istanbul": "^4.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.0",
+    "compression-webpack-plugin": "^1.0.1",
     "expect.js": "0.3.1",
+    "http-server": "^0.10.0",
+    "jasmine": "^2.5.2",
+    "jasmine-core": "^2.8.0",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.1.1",
+    "karma-coverage": "^1.1.1",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-mocha-reporter": "^2.2.3",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-safari-launcher": "^1.0.0",
+    "karma-sauce-launcher": "^1.1.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.3",
+    "light-babel-import": "^1.6.8",
     "mocha": "^3.5.3",
     "nyc": "^11.2.1",
+    "resolve": "^1.7.0",
+    "rollup": "^0.57.1",
+    "rollup-plugin-alias": "^1.4.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-buble": "^0.18.0",
+    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-flow-no-whitespace": "^1.0.0",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-watch": "^4.3.0",
     "superagent": "^3.8.2",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "uglify-js": "^2.7.4",
+    "webpack": "^4.5.0"
+  },
+  "dependencies": {
+    "light-utils": "^0.1.0"
   }
 }
