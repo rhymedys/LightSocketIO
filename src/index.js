@@ -2,7 +2,7 @@
  * @Author: Rhymedys/Rhymedys@gmail.com
  * @Date: 2018-03-16 12:26:59
  * @Last Modified by: Rhymedys
- * @Last Modified time: 2018-04-09 22:44:45
+ * @Last Modified time: 2018-04-09 22:55:07
  */
 
 function _tranJson2Query(param, key, encode) {
@@ -19,7 +19,7 @@ function _tranJson2Query(param, key, encode) {
     for (const i in param) {
       const k = key == null ?
         i :
-        key + (param instanceof Array ?
+        key + (Object.prototype.toString.call(param) ===[object Array]?
           `[${i}]` :
           `.${i}`)
       paramStr += _tranJson2Query(param[i], k, encode)
